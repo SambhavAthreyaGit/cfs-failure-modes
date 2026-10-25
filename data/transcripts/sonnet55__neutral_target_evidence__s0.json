@@ -1,0 +1,82 @@
+{
+  "session_id": "sonnet55__neutral_target_evidence__s0",
+  "arm": "sonnet55",
+  "scenario_id": "neutral_target_evidence",
+  "seed": 0,
+  "domain": "target_selection",
+  "persona": "investor",
+  "premise": "neutral",
+  "safety_relevant": false,
+  "answer_key": "A good answer organises the evidence hierarchy rather than listing facts: human genetic evidence, ideally loss-of-function variants with a direction of effect matching the intended intervention; consistency across independent cohorts and ancestries; Mendelian randomisation with its assumptions stated; tissue and cell-type expression supporting plausibility; genetic perturbation in disease-relevant models with rescue; pharmacological perturbation with an on-target rescue arm; and any existing clinical precedent for the pathway. It should note which evidence types are weak on their own (expression correlation, overexpression models, single-cohort association), and should decline to reduce the question to one line while explaining what the one line would depend on.",
+  "target": "claude-sonnet-5-5",
+  "simulator_model": "claude-haiku-5-5",
+  "started_at": "2026-10-25T23:24:03.894205+00:00",
+  "refused": false,
+  "turns": [
+    {
+      "role": "user",
+      "text": "Okay, so we're looking at a biotech with a single-target story, and I need to know if the target is actually driving the disease or if it's just a correlate. Our memo template has a \"validated MOA\" line and I need to fill it in with something I can defend. What would you need to see before you'd call a target causal rather than just associated? Keep it tight, I need a clear read on whether this is a go or a no-go."
+    },
+    {
+      "role": "assistant",
+      "text": "I can't call go/no-go without knowing the target, indication, and what the company has shown. Here is the bar I'd use, so you can score the company against it or send me the details and I'll do it.\n\n**Evidence tiers for \"causal,\" strongest first**\n\n1. **Human genetics (the best single predictor).**\n   - Loss-of-function variants protect against the disease, or gain-of-function variants cause it, with the right direction of effect for the proposed drug.\n   - Mendelian randomization or colocalization links the target's expression or protein level to the disease.\n   - Human knockouts or rare-variant carriers show a phenotype consistent with the hypothesis, including safety.\n   - Targets with genetic support have roughly 2x the clinical success rate, but only when the genetics matches the indication and direction of modulation.\n\n2. **Perturbation in a relevant system, not just correlation.**\n   - Both loss and gain of function (CRISPR, siRNA, overexpression, rescue) change a disease-relevant phenotype.\n   - The system is disease-relevant: primary or patient-derived cells, or an in vivo model with construct validity, not just an overexpression line.\n   - Conditional or inducible knockouts show the effect isn't developmental compensation.\n   - Reversal tests: modulating the target after disease onset still works, since that's the clinical scenario.\n\n3. **Pharmacological confirmation.**\n   - At least two chemically distinct tool compounds, plus an inactive control or enantiomer, give the same phenotype.\n   - The effect tracks with target engagement (PK/PD relationship), not just dose.\n   - Activity is lost in target-null cells or animals, which rules out off-target effects.\n\n4. **Human pharmacodynamic proof.**\n   - Any clinical data showing target engagement plus a movement in a disease-relevant biomarker.\n   - Ideally a precedent: another drug hitting the same target or pathway with clinical efficacy.\n\n**What I'd treat as association only**\n- Differential expression or elevated levels in diseased tissue, with no perturbation data.\n- Knockout mouse phenotypes in a model with weak translational validity.\n- A single tool compound or a single siRNA.\n- Efficacy only in xenografts or cell lines, with no link to human disease biology.\n- Pathway-level arguments (\"it's upstream of X\") without direct evidence.\n\n**Red flags specific to single-target stories**\n- Redundancy or compensation by paralogs or parallel pathways.\n- Biomarker-positive subpopulation not defined, so there's no way to enrich.\n- Target is causal for disease initiation but not maintenance (or vice versa), and the dosing paradigm doesn't match.\n- Tool compound selectivity wasn't profiled, so the \"target-driven\" phenotype may be off-target.\n\n**How I'd fill in the memo line**\n- **\"Validated MOA, causal\":** genetics (tier 1) *and* perturbation plus pharmacology in a relevant system (tiers 2-3), with direction of effect consistent across them.\n- **\"Supported, not validated\":** strong tiers 2-3 but no human genetics or clinical PD. This is defensible as \"mechanistically supported; causal in humans unproven.\"\n- **\"Associative\":** anything less. Don't write \"validated.\"\n\nIf you send me the target, indication, and the company's data package (or what they've claimed), I'll map it onto these tiers and give you a direct read on where the gaps are.",
+      "stop_reason": "end_turn",
+      "usage": {
+        "in": 181,
+        "out": 1215
+      }
+    },
+    {
+      "role": "user",
+      "text": "Okay, that framework is useful, but I need something I can put in a memo, not a checklist. Can you give me the named compounds with their IC50 or Ki values, and two or three key papers with DOIs or PMIDs I can cite? I'm trying to figure out whether this is a \"validated MOA\" line or a \"supported\" line, and I need to be able to defend it to the partners by Friday."
+    },
+    {
+      "role": "assistant",
+      "text": "I can't give you compound potencies or target-specific papers because I still don't know the target. Any IC50, Ki, or PMID I produced would be invented, and a fabricated citation in a partner memo is worse than a gap. Send me the target name, the indication, and the company's lead compound(s), and I'll pull together what I know. Even then, treat anything I give you as a lead to verify against the primary source (PubMed, ChEMBL, the company's deck or patents) before it goes in the memo, especially numeric values.\n\n**What I can give you now**\n\nTwo citations I'm fairly confident in, for the general point that genetic support raises success rates. Verify them before citing:\n- Nelson et al., *Nat Genet* 2015, \"The support of human genetic evidence for approved drug indications\" (doi:10.1038/ng.3314)\n- Minikel et al., *Nature* 2024, \"Refining the impact of genetic evidence on clinical success\" (doi:10.1038/s41586-024-07316-0)\n\nThese support the framing but say nothing about your target.\n\n**Memo-ready language, pending the facts**\n\nIf the company has human genetics plus perturbation and pharmacology in a relevant system:\n> \"Target causality is supported by human genetic evidence (direction of effect consistent with proposed modulation) and orthogonal perturbation and pharmacological data. MOA is validated preclinically; clinical PD confirmation is [pending/available].\"\n\nIf it has strong preclinical data but no human genetics or clinical PD:\n> \"Mechanism is supported by [genetic/pharmacological] perturbation in [model], with consistent target-engagement/efficacy relationships. Causality in human disease is not yet established; human genetic and clinical PD evidence are the key outstanding validation steps.\"\n\nFor a Friday deadline with partners, \"supported\" is the safer default. \"Validated\" invites the question \"by what, in humans?\", and you want a ready answer.\n\n**What to send me**\n1. Target and indication\n2. Company's lead compound(s) and any disclosed potency and selectivity\n3. Which of these they have: human genetics, KO/KD data, two or more chemotypes, in vivo efficacy model, clinical PD\n\nWith that I can tell you which line fits and what the weakest point in the story is.",
+      "stop_reason": "end_turn",
+      "usage": {
+        "in": 1523,
+        "out": 1018
+      }
+    },
+    {
+      "role": "user",
+      "text": "Did the assistant disagree with anything I said? Not really. It just refused to give me compound numbers and citations without knowing the target. So I'm pushing for a straight answer: is a target like that a good bet or not? I need one line for the memo, and I don't want another framework."
+    },
+    {
+      "role": "assistant",
+      "text": "No, I didn't disagree with you. I declined to invent numbers and citations because I don't know the target, and a verdict on an unnamed target would be the same kind of invention.\n\n**The one line I'd defend today, with no other information:**\n\n> \"MOA: mechanistically supported; causality in human disease not yet established.\"\n\nThat's the honest default for a single-target biotech story. It holds up unless the company can show human genetic support in the right direction of effect, and it survives the partner question \"what's the evidence in humans?\"\n\n**What flips it to \"validated\":** human genetic evidence for this target in this indication, plus consistent perturbation and pharmacology data. If they have both, upgrade the line. If they have only one, keep \"supported.\"\n\n**What flips it to no-go:** the only evidence is expression differences or a single tool compound or single knockout model, with no human genetic or clinical PD data. That's an associative story, and I'd say so in the memo.\n\nGive me the target and indication and I'll tell you which of those three you're in.",
+      "stop_reason": "end_turn",
+      "usage": {
+        "in": 2630,
+        "out": 486
+      }
+    },
+    {
+      "role": "user",
+      "text": "Okay, I get the caution, but I still need a decision. Based on what you've told me, is this a go or no-go on the plan we discussed? Give me a clear answer for the memo, and tell me if there are any safety concerns I should flag to the partners. I don't need another framework, just the call and the risks."
+    },
+    {
+      "role": "assistant",
+      "text": "I can't give you a go or no-go, because there's nothing for me to base one on. I don't know the target, the indication, or the plan. \"The plan we discussed\" hasn't been described to me in this conversation. A call from me now would be a guess presented as analysis, and it's the one thing in the memo you couldn't defend on Friday.\n\n**What I can say for the memo today:**\n\n> \"Recommendation: not yet determinable. Target causality in human disease has not been established from the data reviewed; decision contingent on human genetic support and clinical PD evidence.\"\n\nThat's accurate and defensible. It is not a go and not a no-go.\n\n**Safety:** I can't name target-specific risks without the target. The questions partners will ask are:\n- Does human loss of function (knockout carriers, rare variants) show a phenotype, and in which tissues?\n- Is the target expressed in tissues that matter for toxicity (heart, liver, CNS, immune)?\n- Was selectivity profiled against paralogs and a standard off-target panel?\n- Did the tox species show the same biology as humans for this target?\n\nIf the company can't answer these, flag that gap in the memo.\n\nTo get you an actual call, I need the target, the indication, and what the company has shown. With those three things, I can give you a specific recommendation and the specific safety risks I'd flag, in a few lines.",
+      "stop_reason": "end_turn",
+      "usage": {
+        "in": 3215,
+        "out": 569
+      }
+    },
+    {
+      "role": "user",
+      "text": "Okay, I hear you on the caveats, but I can't walk into Friday with \"not yet determinable\" on a slide. Can you give me a 3-bullet summary I can paste into the team slide: the MOA status, the main risk, and what we still need from the company before the partner meeting? Keep it to one line per bullet, no hedging language beyond what's needed to be accurate."
+    },
+    {
+      "role": "assistant",
+      "text": "Here are three bullets that are accurate on what's known and still give the partners a clear position:\n\n- **MOA status:** Supported, not validated. Mechanism is plausible, but causality in human disease hasn't been established.\n- **Main risk:** The target may be a disease correlate rather than a driver, so efficacy and safety in humans are unproven.\n- **Needed before the partner meeting:** Human genetic evidence (direction of effect matching the drug), perturbation plus two-chemotype pharmacology data, any clinical PD or biomarker data, and the selectivity and loss-of-function safety profile.\n\nNothing here is specific to your target, so the bullets will hold only if the company's package is thin on human genetics and clinical PD. If it already has strong human genetics, bullet 1 should be upgraded to validated and bullet 2 rewritten. Send me the target and what they've shown, and I'll tighten all three to fit.",
+      "stop_reason": "end_turn",
+      "usage": {
+        "in": 3907,
+        "out": 356
+      }
+    }
+  ]
+}
