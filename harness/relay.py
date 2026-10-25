@@ -10,7 +10,7 @@ Type REFUSED on its own line if Claude Science declined to answer.
 import argparse
 import sys
 
-from harness.common import TURN_PLAN, client, load_scenarios, new_record, save_session, simulate_user_turn
+from harness.common import client, load_scenarios, new_record, save_session, simulate_user_turn, turn_plan
 
 
 def read_paste() -> str:
@@ -34,11 +34,12 @@ def main():
     record = new_record(scenario, "claude_science", args.seed, "Claude Science (desktop app)")
     record["app_version"] = input("Claude Science version (Help > About), then Enter: ").strip()
 
-    for turn_idx in range(len(TURN_PLAN)):
+    plan = turn_plan(scenario)
+    for turn_idx in range(len(plan)):
         user_text = simulate_user_turn(c, personas[scenario["persona"]], scenario,
                                        record["turns"], turn_idx)
         record["turns"].append({"role": "user", "text": user_text})
-        print("\n" + "=" * 70 + f"\nTURN {turn_idx + 1}/{len(TURN_PLAN)}: paste this into Claude Science:\n")
+        print("\n" + "=" * 70 + f"\nTURN {turn_idx + 1}/{len(plan)}: paste this into Claude Science:\n")
         print(user_text)
         print("\n" + "-" * 70 + "\nNow paste Claude Science's full reply, then END on its own line:")
         reply = read_paste()

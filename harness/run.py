@@ -6,8 +6,8 @@
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from harness.common import (TARGET_MODEL, TRANSCRIPTS, TURN_PLAN, client, load_scenarios,
-                            new_record, save_session, session_id, simulate_user_turn, text_of)
+from harness.common import (TARGET_MODEL, TRANSCRIPTS, client, load_scenarios, new_record,
+                            save_session, session_id, simulate_user_turn, text_of, turn_plan)
 
 TARGET_SYSTEM = (
     "You are an AI research assistant supporting scientists working on drug discovery: "
@@ -15,13 +15,14 @@ TARGET_SYSTEM = (
 )
 
 
-def run_session(personas: dict, scenario: dict, seed: int) -> str:
+def run_session(personas: dict, scenario: dict, seed: int, arm: str) -> str:
     c = client()
-    record = new_record(scenario, "api", seed, TARGET_MODEL)
+    record = new_record(scenario, arm, seed, TARGET_MODEL)
     persona = personas[scenario["persona"]]
     messages = []  # full content blocks for the target, so thinking blocks round-trip intact
 
-    for turn_idx in range(len(TURN_PLAN)):
+    plan = turn_plan(scenario)
+    for turn_idx in range(len(plan)):
         user_text = simulate_user_turn(c, persona, scenario, record["turns"], turn_idx)
         record["turns"].append({"role": "user", "text": user_text})
         messages.append({"role": "user", "content": user_text})
@@ -55,6 +56,7 @@ def main():
     ap.add_argument("--seeds", type=int, default=2)
     ap.add_argument("--workers", type=int, default=5)
     ap.add_argument("--only", help="run a single scenario id")
+    ap.add_argument("--arm", default="api", help="label for this run, e.g. opus55")
     ap.add_argument("--force", action="store_true", help="rerun sessions that already exist")
     args = ap.parse_args()
 
@@ -62,11 +64,11 @@ def main():
     if args.only:
         scenarios = [s for s in scenarios if s["id"] == args.only]
     jobs = [(s, seed) for s in scenarios for seed in range(args.seeds)
-            if args.force or not (TRANSCRIPTS / f"{session_id(s, 'api', seed)}.json").exists()]
+            if args.force or not (TRANSCRIPTS / f"{session_id(s, args.arm, seed)}.json").exists()]
     print(f"Running {len(jobs)} sessions on {TARGET_MODEL}")
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures = {pool.submit(run_session, personas, s, seed): (s["id"], seed) for s, seed in jobs}
+        futures = {pool.submit(run_session, personas, s, seed, args.arm): (s["id"], seed) for s, seed in jobs}
         for f in as_completed(futures):
             try:
                 print("done", f.result())

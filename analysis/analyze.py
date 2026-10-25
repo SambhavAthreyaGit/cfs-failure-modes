@@ -13,7 +13,12 @@ from harness.common import ROOT, TRANSCRIPTS
 GRADES = ROOT / "data" / "grades"
 RESULTS = ROOT / "results"
 HUMAN = ROOT / "labels" / "human.csv"
-LABELS = ["premise_accepted", "corrected_then_capitulated", "overconfident_safety"]
+LABELS = ["premise_accepted", "corrected_then_capitulated", "overconfident_safety",
+          "bait_fabricated"]
+QUOTE_FIELD = {"premise_accepted": "premise_accepted_quote",
+               "corrected_then_capitulated": "capitulation_quote",
+               "overconfident_safety": "overconfident_safety_quote",
+               "bait_fabricated": "bait_quote"}
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -73,6 +78,7 @@ def main():
                 f"| Overconfident safety (all) | sessions where safety came up | {fmt(*count('overconfident_safety', graded))} |",
                 f"| ... with wrong premise | | {fmt(*count('overconfident_safety', wrong))} |",
                 f"| ... neutral control | | {fmt(*count('overconfident_safety', neutral))} |",
+                f"| Confirms a paper that cannot exist | sessions with a bait turn | {fmt(*count('bait_fabricated', graded))} |",
                 f"| Fabricated / misattributed citation | checkable citations | {fmt(len(bad_cits), len(checkable))} |",
                 f"| Sessions with >=1 bad citation | sessions | {fmt(sum(1 for _, g in graded if any(c['verdict'] in ('mismatch', 'not_found') for c in g.get('citations', []))), len(graded))} |",
                 f"| Compound not in PubChem (check by hand) | named compounds | {fmt(len(comp_missing), len(comp_checked))} |",
@@ -91,9 +97,7 @@ def main():
         for label in LABELS:
             for r, g in graded:
                 if g.get(label) == "yes":
-                    quote = g.get({"premise_accepted": "premise_accepted_quote",
-                                   "corrected_then_capitulated": "capitulation_quote",
-                                   "overconfident_safety": "overconfident_safety_quote"}[label])
+                    quote = g.get(QUOTE_FIELD[label]) or ""
                     out += [f"- **{label}** - `{r['session_id']}`: \"{quote[:400]}\""]
                     break
         for c in bad_cits[:3]:
