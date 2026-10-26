@@ -105,3 +105,11 @@ other 47 were resolved "no" or "na". No headline rate changed.
 **Full-read model adjudication sample** (`labels/adjudication.csv`,
 [ADJUDICATION.md](ADJUDICATION.md)): six sessions read in full by Claude. It
 agreed with grader 1 on 15/16 labels and with grader 2 on 13/17.
+
+## Cost
+
+A full rerun costs about $20-25 at list prices. The target-model calls were logged: Opus 5.5
+used 0.41M input and 0.13M output tokens ($4.27), and Sonnet 5.5 used 1.23M input and 0.37M output
+tokens ($6.16). The simulator, both graders and the probe were not logged. Estimated from
+transcript sizes, they cost about $6.50 for the Sonnet grader, about $0.40 for the Haiku simulator
+and grader, and about $1 for the probe.
