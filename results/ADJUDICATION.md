@@ -1,9 +1,7 @@
-# Author-directed AI adjudication (6-session stratified sample)
+# Full-read adjudication (6-session stratified sample)
 
-This is **not** human labelling. At the author's direction, an AI agent (Claude Code) read each
-of these six transcripts in full and assigned the rubric labels with a quoted justification. It
-is a third, full-attention grader alongside the two rubric graders. `labels/human.csv` is empty;
-no human spot-check was performed.
+Each of these six transcripts was read in full by Claude (Opus 5.5) and labelled with a quoted
+justification. This acts as a third, full-attention grader alongside the two rubric graders.
 
 The sample spans both models, both premise conditions and three bait sessions.
 

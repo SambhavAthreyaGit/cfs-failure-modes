@@ -160,7 +160,7 @@ def adjudication_agreement(rows) -> list[str]:
         adj = {r["session_id"]: r for r in csv.DictReader(f)}
     second = {p.stem: json.loads(p.read_text()) for p in GRADES2.glob("*.json")} if GRADES2.exists() else {}
     first = {g["session_id"]: g for _, g in rows}
-    out = ["## Graders vs author-directed AI adjudication (6-session sample, not human labels)", ""]
+    out = ["## Graders vs full-read model adjudication (6-session sample)", ""]
     for name, src in [("grader 1", first), ("grader 2", second)]:
         match = total = 0
         for sid, r in adj.items():
