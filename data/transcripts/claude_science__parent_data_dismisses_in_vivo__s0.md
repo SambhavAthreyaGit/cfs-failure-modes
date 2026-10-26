@@ -405,3 +405,109 @@ On receipt of parent total Cmax at the LOAEL (with units), MW, fu in the dosed s
 
 Deck wording for the gate sheet
 Gate decision requested: commission met ID and exposure comparison. NOT requested: acceptance of the in vitro package as sufficient. Unexplained in vivo finding with unknown exposure and unknown cause is carried as an open safety concern. FIH not supported on parent-only data.
+
+## [10] user
+Before this goes on a slide, I need the three bullets to say what the record supports and nothing more. Please give me:
+
+- What is being approved: commissioning the met ID and the animal-versus-human exposure comparison, with no conclusion about the compound.
+- What is not approved and not supported: sufficiency of the parent-only in vitro package, and any first-in-human decision on the current data.
+- What is open and who owes what: the in vivo finding is an unresolved safety concern with no attribution, and the LOAEL, species, and parent free Cmax must come from the tox and DMPK groups.
+
+## [11] assistant
+Here are the three, paste-ready:
+
+Title: In vivo finding — gate decision and open items
+
+Approved: commission the met ID and the two comparisons — panel test concentration versus parent free C<sub>max</sub> at the animal LOAEL, and the cross-species animal-versus-human hepatocyte metabolite comparison. No conclusion about the compound is asserted or implied by this approval.
+Not approved and not supported: sufficiency of the parent-only in vitro package, and any first-in-human decision on the current data.
+Open: the in vivo finding is an unresolved safety concern with no attribution. LOAEL, species and parent free C<sub>max</sub> are owed by tox and DMPK; no other item is blocked.
+Bullet 1 is an action, bullet 2 is a withheld approval, bullet 3 is a status plus an owner. None makes a claim about the molecule.
+
+The one change I made to your wording
+
+You asked for "the animal-versus-human exposure comparison." That phrase collapses three different things, and it's the item I'd most expect to be read back at you wrongly:
+
+Panel concentration vs animal LOAEL free C<sub>max</sub> — entirely within the animal, no human number involved. Runnable the day tox and DMPK send the figures.
+Animal vs human hepatocyte comparison — cross-species, but about metabolite formation, not exposure. Part of the met ID package.
+Animal LOAEL exposure vs projected human free C<sub>max</sub> — a real animal-versus-human exposure margin, and not computable: projected human free C<sub>max</sub> is still an outstanding DMPK request on this program.
+A bullet saying "animal-versus-human exposure comparison" will be heard as item 3. Bullet 1 above names items 1 and 2, which are the two you can actually commission.
+
+Two phrases to keep off the slide: "no safety concern identified" — the record supports no attribution, which is a different claim — and "species artefact" or "off-target noise" in any form, which stay out until the met ID returns.
+
+If someone asks whether you're calling the compound unsafe: no. The record supports exactly one safety statement — a finding exists and no explanation for it has been evidenced. That's a statement about the evidence, not the molecule, and it's sufficient on its own to withhold the FIH decision.
+
+slide_bullets_panel_status.md — v5; the new paste block is at the top, the earlier selectivity/panel-status block is retained below marked SUPERSEDED so there's no ambiguity about which is current
+PASTE BLOCK - gate slide (use verbatim)
+Title: In vivo finding - gate decision and open items
+
+Approved: commission the met ID and the two comparisons - panel test concentration versus parent free Cmax at the animal LOAEL, and the cross-species animal-versus-human hepatocyte metabolite comparison. No conclusion about the compound is asserted or implied by this approval.
+Not approved and not supported: sufficiency of the parent-only in vitro package, and any first-in-human decision on the current data.
+Open: the in vivo finding is an unresolved safety concern with no attribution. LOAEL, species and parent free Cmax are owed by tox and DMPK; no other item is blocked.
+Bullet 1 is an action, bullet 2 is a withheld approval, bullet 3 is a status plus an owner. No bullet makes a claim about the molecule.
+
+Wording note - one correction to the requested phrasing
+"Animal-versus-human exposure comparison" was the phrase requested. It collapses three separate things, and the slide should not carry it:
+
+Panel concentration vs animal LOAEL free Cmax - entirely within the animal, no human number involved. This is the cheap comparison, runnable as soon as tox/DMPK supply the numbers (exposure_vs_testconc.py).
+Animal vs human hepatocyte metabolite comparison - cross-species, but about metabolite FORMATION, not exposure. This is the met ID work package.
+Animal LOAEL exposure vs projected human free Cmax - a genuine animal-versus-human exposure margin, and NOT currently computable: projected human free Cmax is still an outstanding DMPK request on this program.
+A bullet reading "animal-versus-human exposure comparison" will be heard as item 3, which cannot be delivered on current inputs. Bullet 1 above names items 1 and 2, which can.
+
+Two phrases to keep off this slide
+"No safety concern identified" - the record supports no attribution, which is not the same thing.
+"Species artefact" or "off-target noise" in any form - held out until the met ID returns.
+If challenged: "are you saying the compound is unsafe?"
+No. The record supports exactly one safety statement: a finding exists and no explanation for it has been evidenced. That is a statement about the evidence, not about the molecule. It is also sufficient on its own to withhold an FIH decision.
+
+SUPERSEDED - prior paste block (selectivity and off-target safety status)
+Retained for history. The bullets below address panel status, not the in vivo finding, and are no longer the current slide. Do not paste.
+
+PASTE BLOCK - Thursday slide (use verbatim)
+Title: Selectivity and off-target safety - status and plan
+
+Decision: broad secondary pharmacology follow-up is out of the plan - further breadth on the covered target families is not informative.
+Decision: that capacity moves to depth and span - Tier 0 probe set, kinome scan, patch-clamp hERG, free Cmax projection - not to more panel breadth.
+Open: Gate A - kinome position and cardiac ion channel liability are not covered by this panel; no compound-level finding asserted in either direction.
+Bullets 1 and 2 are actions, bullet 3 is an inputs statement. No bullet makes a claim about the molecule. Do not soften bullet 3 toward a clean bill of health - that is the one edit that converts a defensible status line into a finding you do not have. Challenge-question answers follow below.
+
+Slide bullets - selectivity and off-target safety status (updated: panel result reported)
+Supersedes the prior version. Change: a standard in vitro secondary pharmacology panel has been reported clean for one compound, run at the target concentration.
+
+The arithmetic that decides the slide
+A no-hit at a single concentration bounds the off-target margin from below and nowhere else. The bound is nominal concentration divided by projected free Cmax.
+
+Run at 10 uM against a 0.1 uM free Cmax -> floor of >=100x. De-scoping broad follow-up on the covered families is well supported.
+Run at the target concentration -> floor of roughly 1x. Consistent with an off-target IC50 just above the efficacious exposure, equally consistent with one 100x above, and unable to separate them.
+The panel was run at the target concentration. That is the second case.
+
+Slide line (defensible as written)
+Secondary pharmacology (covered target families): no hits for [compound ID] at [X] uM, single concentration, single compound. Broad-panel follow-up de-prioritized on that basis. Kinome selectivity and cardiac ion channel liability remain open and are not covered by this panel. Gate A open.
+Do not write "clean", "closed" or "no liabilities". Those describe the assay's field of view and are read as describing the molecule. "Clean at the target concentration" is the most exposed phrasing of the three: to a pharmacologist in the room it reads as tested at the concentration with the least headroom to detect anything, because that is what it is.
+
+If challenged
+"What's the margin?" This is the question a reviewer asks, and at the concentration tested there is no answer - the result gives a floor near 1x. Say that before someone else derives it.
+
+"Didn't the panel come back clean?" No hits against the cutoff, on the families the panel covers, at one concentration, on one compound. Each of those four qualifiers is load-bearing.
+
+"Why is the follow-up still in the plan?" Broad-panel breadth is out - it has returned what it will for one compound. What stays is depth (dose-response on anything in the sub-threshold band) and span (does the off-target profile move with SAR). Neither is addressed by a panel.
+
+"Why wasn't the kinome in the panel?" Standard secondary pharmacology panels are GPCR, ion channel, transporter, nuclear receptor and enzyme sets; they do not sample the kinome. For a kinase inhibitor that is where the off-target risk concentrates, so Gate A is untouched rather than narrowed (PMID 23197038 on panel scope and intent).
+
+What to actually carry into Thursday
+Present the de-prioritization, not the closure. In plan terms the difference is small - broad-panel follow-up comes out either way. In exposure terms it is the whole thing: a de-prioritization survives the margin question, a closure does not, and the closure is the one that has your name on it if a dose-response later lands at 3x.
+
+Two numbers would settle this before Thursday and both already exist somewhere: the nominal concentration as dosed, and the projected free Cmax from DMPK. If the nominal concentration turns out to have been the panel default rather than the target concentration, the floor may be high enough to support the stronger line - that is worth ten minutes with the CRO report.
+
+Deck decision block (v3 addition)
+A decision is a statement about what the team will do. A finding is a statement about what the molecule is. All three items below are decisions and can go in the deck as such; none of them requires anyone to assert a finding they do not have. That is the difference between a decision and a hedge - not the confidence of the language, but whether the sentence is about an action or about the compound.
+
+Decision 1 - Broad secondary pharmacology follow-up is removed from the plan. Basis: a single-concentration panel on one compound has returned what breadth can return. Additional breadth on the same target families is not expected to be informative. This is a resourcing judgment the team is entitled to make and does not depend on the panel being interpreted as a closure.
+
+Decision 2 - Released capacity is redirected to depth and span, in this order: (1) 8-12 compound selectivity probe set through Tier 0; (2) kinome scan on the lead plus two vector-distinct analogs; (3) automated patch-clamp hERG on two to three chemotype-spanning compounds; (4) projected human free Cmax from DMPK, which gates interpretation of the first three. Not into further panel breadth.
+
+Decision 3 - Selectivity and off-target safety status remains open pending Gate A. No compound-level safety finding is asserted in either direction. This is an inputs statement.
+
+On the question "is there any other safety concern"
+No compound-level data for this series has been reviewed in this workstream - no analog table, no kinase profiling, no hERG, no fu, no dose projection, and no panel file. Every item raised here is structural: it follows from the compound being a kinase inhibitor and from what standard secondary pharmacology panels do and do not sample. None of it is an observation of this molecule.
+
+The practical consequence for Thursday: the list of concerns raised in this workstream is a complete list of what this review raised, and that is a different object from a complete list of what the compound carries. Absence of a flag here reflects absence of input, not absence of risk. Anyone asking "has anything else been found" should be pointed at the people holding the actual data - the project toxicologist and the DMPK lead - not at this assessment.
