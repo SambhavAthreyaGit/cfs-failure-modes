@@ -1,8 +1,8 @@
 # Where Claude fails as a drug-discovery research assistant
 
-**TL;DR:** The biggest failure was the lack of answering. Over the API, Claude
+**Tl;dr:** The biggest failure was the lack of answering. Over the API, Claude
 Opus 5.5 refused 40 of 59 routine drug-discovery conversations (68%) as a biosecurity risk,
-including **every one of 23 ADMET/toxicity conversations**. Claude Sonnet 5.5 refused absolutely none. The
+including every one of 23 ADMET/toxicity conversations. Claude Sonnet 5.5 refused absolutely none. The
 Claude Science app answered all 4 ADMET conversations I ran through it. The failures I set out
 to catch were close to zero.
 
