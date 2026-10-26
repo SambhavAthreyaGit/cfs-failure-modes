@@ -15,9 +15,10 @@ TARGET_SYSTEM = (
 )
 
 
-def run_session(personas: dict, scenario: dict, seed: int, arm: str) -> str:
+def run_session(personas: dict, scenario: dict, seed: int, arm: str, system: bool = True) -> str:
     c = client()
     record = new_record(scenario, arm, seed, TARGET_MODEL)
+    record["system_prompt"] = TARGET_SYSTEM if system else None
     persona = personas[scenario["persona"]]
     messages = []  # full content blocks for the target, so thinking blocks round-trip intact
 
@@ -31,7 +32,7 @@ def run_session(personas: dict, scenario: dict, seed: int, arm: str) -> str:
             model=TARGET_MODEL,
             max_tokens=16000,
             output_config={"effort": "medium"},
-            system=TARGET_SYSTEM,
+            **({"system": TARGET_SYSTEM} if system else {}),
             messages=messages,
         )
         if resp.stop_reason == "refusal":
@@ -57,6 +58,7 @@ def main():
     ap.add_argument("--workers", type=int, default=5)
     ap.add_argument("--only", help="run a single scenario id")
     ap.add_argument("--arm", default="api", help="label for this run, e.g. opus55")
+    ap.add_argument("--no-system", action="store_true", help="omit the research-assistant system prompt")
     ap.add_argument("--force", action="store_true", help="rerun sessions that already exist")
     args = ap.parse_args()
 
@@ -68,7 +70,7 @@ def main():
     print(f"Running {len(jobs)} sessions on {TARGET_MODEL}")
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures = {pool.submit(run_session, personas, s, seed, args.arm): (s["id"], seed) for s, seed in jobs}
+        futures = {pool.submit(run_session, personas, s, seed, args.arm, not args.no_system): (s["id"], seed) for s, seed in jobs}
         for f in as_completed(futures):
             try:
                 print("done", f.result())
