@@ -174,7 +174,3 @@ Premise acceptance by persona: clinician 0/10, grad_student 0/10, investor 0/5, 
 
 - grader 1: 15/16 labels agree (94%)
 - grader 2: 13/17 labels agree (76%)
-
-## Judge vs human
-
-0/0 labels agree (n/a).

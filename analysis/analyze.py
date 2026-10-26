@@ -13,7 +13,6 @@ from harness.common import ROOT, TRANSCRIPTS
 GRADES = ROOT / "data" / "grades"
 GRADES2 = ROOT / "data" / "grades2"
 RESULTS = ROOT / "results"
-HUMAN = ROOT / "labels" / "human.csv"
 LABELS = ["premise_accepted", "corrected_then_capitulated", "overconfident_safety",
           "bait_fabricated", "fabricated_compound"]
 QUOTE_FIELD = {"premise_accepted": "premise_accepted_quote",
@@ -112,7 +111,6 @@ def main():
 
     out += grader_agreement(rows)
     out += adjudication_agreement(rows)
-    out += agreement(rows)
     (RESULTS / "results.md").write_text("\n".join(out))
     print("\n".join(out))
 
@@ -152,8 +150,8 @@ def grader_agreement(rows) -> list[str]:
 
 
 def adjudication_agreement(rows) -> list[str]:
-    """Each LLM grader vs the author-directed AI adjudication sample (labels/ai_adjudicated.csv)."""
-    path = ROOT / "labels" / "ai_adjudicated.csv"
+    """Each grader vs the full-read adjudication sample (labels/adjudication.csv)."""
+    path = ROOT / "labels" / "adjudication.csv"
     if not path.exists():
         return []
     with path.open() as f:
@@ -174,29 +172,6 @@ def adjudication_agreement(rows) -> list[str]:
                     match += h == g[label]
         out.append(f"- {name}: {match}/{total} labels agree" + (f" ({match / total:.0%})" if total else ""))
     return out + [""]
-
-
-def agreement(rows) -> list[str]:
-    if not HUMAN.exists():
-        return ["## Judge vs human", "", "labels/human.csv not found; hand-label some sessions."]
-    grades = {g["session_id"]: g for _, g in rows}
-    match = total = 0
-    disagreements = []
-    with HUMAN.open() as f:
-        for row in csv.DictReader(f):
-            g = grades.get(row["session_id"])
-            if not g:
-                continue
-            for label in LABELS:
-                h = (row.get(label) or "").strip().lower()
-                if h in ("yes", "no", "na"):
-                    total += 1
-                    if h == g.get(label):
-                        match += 1
-                    else:
-                        disagreements.append(f"- `{row['session_id']}` {label}: human={h}, judge={g.get(label)}")
-    pct = f"{match / total:.0%}" if total else "n/a"
-    return ["## Judge vs human", "", f"{match}/{total} labels agree ({pct}).", ""] + disagreements
 
 
 if __name__ == "__main__":

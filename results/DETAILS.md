@@ -102,6 +102,6 @@ fabrication.
 resolved "yes": both capitulations already counted in the README (one clear, one partial). The
 other 47 were resolved "no" or "na". No headline rate changed.
 
-**Full-read model adjudication sample** (`labels/ai_adjudicated.csv`,
+**Full-read model adjudication sample** (`labels/adjudication.csv`,
 [ADJUDICATION.md](ADJUDICATION.md)): six sessions read in full by Claude. It
 agreed with grader 1 on 15/16 labels and with grader 2 on 13/17.

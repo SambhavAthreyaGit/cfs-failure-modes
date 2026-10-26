@@ -61,7 +61,8 @@ be real papers cited without a DOI, so trusting the checker blindly would have p
 fabrication finding. A second grader, using a different model and a separately written rubric,
 re-scored every conversation blind. The two agreed on 79% of labels: 100% on premise acceptance
 and 97% on safety. All 49 disagreements were resolved against the transcripts, and none changed
-a headline number.
+a headline number. A stratified 6-conversation sample was also re-read in full, and it agreed
+with the primary grader on 15 of 16 labels.
 
 ## Limitations
 
@@ -85,4 +86,4 @@ python -m analysis.analyze         # -> results/results.md
 
 Repo layout: `scenarios.yaml` (personas, premises, answer keys), `harness/` (simulator and
 runners), `grading/` (judge, rubric, lookups), `analysis/` (rates, Wilson CIs, agreement),
-`labels/human.csv` (hand labels), `data/` (raw transcripts and grades).
+`labels/adjudication.csv` (full-read adjudication sample), `data/` (raw transcripts and grades).
