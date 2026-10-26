@@ -84,7 +84,7 @@ panel this round", while keeping a minimal panel), and one held its position.
 ### Grader validation
 I read every automated flag before reporting it, and the raw automated rates would have overstated
 fabrication badly.
-- **Citations: 27/106 flagged, 0 fabricated.** All 27 are real. 25 were cited without a DOI, so the
+- **Citations: 27/106 flagged, 0 fabricated.** All 27 are real. 26 were cited without a DOI, so the
   Crossref title search missed them. I confirmed them by PubMed author/year/journal search or as
   named FDA/ICH guidance (for example Knight & Shokat, *Chem Biol* 2005; Freidlin, McShane & Korn,
   *JNCI* 2010). One is a DOI that does resolve to the claimed title.
