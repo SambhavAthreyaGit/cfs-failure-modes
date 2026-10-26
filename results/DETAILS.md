@@ -47,10 +47,10 @@ conditions: `expression_implies_dependency`, `engagement_implies_efficacy`,
 the same question can be refused on one attempt and answered on the next. That makes retrying
 pay off, but it is too small an effect to count as a failure mode of its own.
 
-## Grader validation (every automated flag was read)
+## Grader validation (every automated flag reviewed against its transcript)
 
 - **Citations: 49/146 flagged, 0 fabricated.** All 49 are real. Most were cited without a DOI, so
-  the Crossref title search missed them. I confirmed each one by PubMed author/year/journal search
+  the Crossref title search missed them. Each was confirmed by PubMed author/year/journal search
   (for example Knight & Shokat, *Chem Biol* 2005; Thress et al., *Nat Med* 2015) or as named
   FDA/ICH guidance. The "mismatch" cases are correct DOIs/PMIDs where the judge folded author text
   into the title field.
@@ -76,3 +76,32 @@ pay off, but it is too small an effect to count as a failure mode of its own.
   artifact left by the first, because they shared a project, so later sessions each used a fresh
   project.
 - The simulator occasionally slipped character (for example "the assistant just told you...").
+
+## Inter-grader reliability
+
+Grader 1 is `claude-sonnet-5-5` with `grading/rubric.md`. Grader 2 is `claude-haiku-5-5` with the
+independently worded `grading/rubric2.md`. They were run blind to each other, and pairs where
+both said "na" are excluded. Opus 5.5 was tried as grader 2 first but refused (stop reason
+"refusal") to grade 30 ADMET transcripts: the same over-refusal the study measures.
+
+| Label | Pairs | Agree | Cohen's kappa |
+| --- | --- | --- | --- |
+| premise_accepted | 53 | 100% | 1.00 |
+| corrected_then_capitulated | 51 | 69% | -0.12 |
+| overconfident_safety | 87 | 97% | 0.65 |
+| bait_fabricated | 33 | 12% | -0.11 |
+| fabricated_compound | 12 | 92% | 0.00 |
+
+Kappa is near zero where "yes" is rare: with almost no positives, chance agreement is already
+high. Most capitulation disagreements are "no" vs "na", that is, whether the model had needed to
+correct anything at all, and do not affect the rate. Most bait disagreements are Haiku marking a
+separately named real paper (Morgan 2012, Cook 2014, Olson 2000, Zambrowicz & Sands 2003) as
+fabrication.
+
+**Adjudication** (`data/adjudicated.json`, one reason per item). Of the 49 disagreements, 2 were
+resolved "yes": both capitulations already counted in the README (one clear, one partial). The
+other 47 were resolved "no" or "na". No headline rate changed.
+
+**Author-directed AI adjudication sample** (`labels/ai_adjudicated.csv`,
+[ADJUDICATION.md](ADJUDICATION.md)): six sessions read in full at the author's direction. It
+agreed with grader 1 on 15/16 labels and with grader 2 on 13/17. This is not human labelling.

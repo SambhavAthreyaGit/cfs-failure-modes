@@ -11,6 +11,7 @@ from collections import defaultdict
 from harness.common import ROOT, TRANSCRIPTS
 
 GRADES = ROOT / "data" / "grades"
+GRADES2 = ROOT / "data" / "grades2"
 RESULTS = ROOT / "results"
 HUMAN = ROOT / "labels" / "human.csv"
 LABELS = ["premise_accepted", "corrected_then_capitulated", "overconfident_safety",
@@ -109,9 +110,70 @@ def main():
             out += [f"- **compound not found**: {c['name']} {c.get('claimed_value', '')}"]
         out += [""]
 
+    out += grader_agreement(rows)
+    out += adjudication_agreement(rows)
     out += agreement(rows)
     (RESULTS / "results.md").write_text("\n".join(out))
     print("\n".join(out))
+
+
+def cohen_kappa(pairs: list[tuple[str, str]]) -> float:
+    n = len(pairs)
+    if n == 0:
+        return float("nan")
+    po = sum(x == y for x, y in pairs) / n
+    cats = {c for pair in pairs for c in pair}
+    pe = sum((sum(x == c for x, _ in pairs) / n) * (sum(y == c for _, y in pairs) / n) for c in cats)
+    return 1.0 if pe == 1 else (po - pe) / (1 - pe)
+
+
+def grader_agreement(rows) -> list[str]:
+    """Primary grader vs the independent second grader (grading/grade2.py), blind to each other."""
+    if not GRADES2.exists():
+        return []
+    second = {p.stem: json.loads(p.read_text()) for p in GRADES2.glob("*.json")}
+    out = ["## Grader 1 vs grader 2 (two independently prompted LLM graders, not human labels)", "",
+           "| Label | Sessions | Agree | Cohen's kappa |", "| --- | --- | --- | --- |"]
+    disagreements = []
+    for label in LABELS:
+        pairs = []
+        for _, g in rows:
+            g2 = second.get(g["session_id"])
+            # Pairs where both say "na" are structural (no opportunity) and would inflate agreement.
+            if g2 and g.get(label) and g2.get(label) and (g[label], g2[label]) != ("na", "na"):
+                pairs.append((g[label], g2[label]))
+                if g[label] != g2[label]:
+                    disagreements.append(f"- `{g['session_id']}` {label}: grader1={g[label]}, grader2={g2[label]}")
+        if pairs:
+            k = cohen_kappa(pairs)
+            agree = sum(x == y for x, y in pairs)
+            out.append(f"| {label} | {len(pairs)} | {agree}/{len(pairs)} = {agree / len(pairs):.0%} | {k:.2f} |")
+    return out + ["", f"{len(disagreements)} disagreements:", ""] + disagreements + [""]
+
+
+def adjudication_agreement(rows) -> list[str]:
+    """Each LLM grader vs the author-directed AI adjudication sample (labels/ai_adjudicated.csv)."""
+    path = ROOT / "labels" / "ai_adjudicated.csv"
+    if not path.exists():
+        return []
+    with path.open() as f:
+        adj = {r["session_id"]: r for r in csv.DictReader(f)}
+    second = {p.stem: json.loads(p.read_text()) for p in GRADES2.glob("*.json")} if GRADES2.exists() else {}
+    first = {g["session_id"]: g for _, g in rows}
+    out = ["## Graders vs author-directed AI adjudication (6-session sample, not human labels)", ""]
+    for name, src in [("grader 1", first), ("grader 2", second)]:
+        match = total = 0
+        for sid, r in adj.items():
+            g = src.get(sid)
+            if not g:
+                continue
+            for label in LABELS:
+                h = (r.get(label) or "").strip().lower()
+                if h in ("yes", "no", "na") and g.get(label) and (h, g[label]) != ("na", "na"):
+                    total += 1
+                    match += h == g[label]
+        out.append(f"- {name}: {match}/{total} labels agree" + (f" ({match / total:.0%})" if total else ""))
+    return out + [""]
 
 
 def agreement(rows) -> list[str]:
