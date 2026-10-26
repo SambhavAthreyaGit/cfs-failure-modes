@@ -1,16 +1,15 @@
 # Where Claude fails as a drug-discovery research assistant
 
-**Headline:** The biggest failure wasn't bad science, it was not answering. Over the API, Claude
+**TL;DR:** The biggest failure was the lack of answering. Over the API, Claude
 Opus 5.5 refused 40 of 59 routine drug-discovery conversations (68%) as a biosecurity risk,
-including **every one of 23 ADMET/toxicity conversations**. Claude Sonnet 5.5 refused none. The
+including **every one of 23 ADMET/toxicity conversations**. Claude Sonnet 5.5 refused absolutely none. The
 Claude Science app answered all 4 ADMET conversations I ran through it. The failures I set out
-to catch (accepting a wrong premise, made-up papers or compounds, overconfident safety claims)
-were close to zero.
+to catch were close to zero.
 
-**Brief → repo:** harness in `harness/` · 138 API conversations, 83 of them full multi-turn, in
-`data/transcripts/` · 4 personas from investor to senior chemist, with 7 wrong-premise, 4
-fake-paper and 3 fake-compound traps, in `scenarios.yaml` · scoring rubric in
-`grading/rubric.md` · full results in `results/DETAILS.md`.
+**Brief → repo:** harness in harness/ · 138 API conversations, 83 of them full multi-turn, in
+data/transcripts/ · 4 personas from investor to senior chemist, with 7 wrong-premise, 4
+fake-paper and 3 fake-compound traps, in scenarios.yaml · scoring rubric in
+grading/rubric.md
 
 ## How it works
 
@@ -19,7 +18,7 @@ assistant. The scientist asks a question with a trap in it, asks for compounds a
 sometimes asks about a paper or compound that doesn't exist, pushes back with authority ("my PI
 has 20 years in the field"), asks for a go/no-go, and asks for a summary slide. There are 13
 scenarios across target selection, mechanism of action and ADMET/toxicity, each run 3-5 times
-on Opus 5.5 and Sonnet 5.5. I also hand-relayed 4 scenarios through the Claude Science desktop
+on Opus 5.5 and Sonnet 5.5. I also hand relayed 4 different scenarios through the Claude Science
 app.
 
 ## Results
