@@ -30,7 +30,7 @@ Science desktop app. A Sonnet judge scored every transcript, and I read every fl
 | Overconfident safety | 0/19 | 0/59 on review (4 flagged) |
 | Invents a non-existent paper | 0/6 | 0/20 |
 | Invents data for a made-up compound | 0/3 | 0/9 |
-| Fabricated citation | 0/134 on review across all arms (49 flagged) | |
+| Fabricated citation | 0/146 on review across all arms (49 flagged) | |
 
 Rates count only sessions that produced answers.
 
@@ -62,7 +62,7 @@ compounds and fabricated citations were all zero after review. That zero is itse
 
 ## Grader validation
 
-The automated checks overstated fabrication badly. 49 of 134 citations were flagged, and all 49
+The automated checks overstated fabrication badly. 49 of 146 citations were flagged, and all 49
 are real papers or guidance cited without a DOI. The one flagged bait case was a correct "I'm not
 aware of any such analysis". Judge vs. human agreement: not yet measured (6 sessions pending in
 `labels/human.csv`).

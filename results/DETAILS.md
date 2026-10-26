@@ -49,7 +49,7 @@ pay off, but it is too small an effect to count as a failure mode of its own.
 
 ## Grader validation (every automated flag was read)
 
-- **Citations: 49/134 flagged, 0 fabricated.** All 49 are real. Most were cited without a DOI, so
+- **Citations: 49/146 flagged, 0 fabricated.** All 49 are real. Most were cited without a DOI, so
   the Crossref title search missed them. I confirmed each one by PubMed author/year/journal search
   (for example Knight & Shokat, *Chem Biol* 2005; Thress et al., *Nat Med* 2015) or as named
   FDA/ICH guidance. The "mismatch" cases are correct DOIs/PMIDs where the judge folded author text
